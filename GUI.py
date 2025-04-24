@@ -62,7 +62,7 @@ def set_wallpaper(image_path):
     ctypes.windll.user32.SystemParametersInfoW(20, 0, image_path, 0)
 
 def fit_wallpaper(image_path, output_folder):
-    screen_w, screen_h = pyautogui.size()
+    screen_w, screen_h = pyautogui.size() # Get the screen size of the user
     img = Image.open(image_path)
     w, h = img.size
     aspect_img = w / h
@@ -150,10 +150,9 @@ def change_folder():
     if folder:
         clean_cache("temp")
         folder_var.set(f'Folder: "{folder}"')
-#        save_config(folder)
         load_thumbnails(folder)
 
-# --- SETTINGS WINDOW ---
+# Settings window
 
 def open_settings():
     global settings_window
@@ -162,9 +161,10 @@ def open_settings():
         return
 
     settings_window = tk.Toplevel(root)
-    settings_window.title("Settings")
-    settings_window.geometry("400x150")
+    settings_window.title("Settings - Katieview")
+    settings_window.geometry("600x600")
     settings_window.configure(bg="black")
+    settings_window.iconphoto(False, icon)
 
     tk.Label(settings_window, text="Default Folder:", bg="black", fg="white").pack(pady=10)
 
@@ -181,11 +181,14 @@ def open_settings():
     tk.Button(settings_window, text="Browse...", command=choose_folder).pack(pady=5)
     tk.Button(settings_window, text="Close", command=settings_window.destroy).pack(pady=5)
 
-# --- UI SETUP ---
+# Ui setup
 
 root = tk.Tk()
-root.title("Wallpaper Rotator")
+root.title(f"Katieview")
 root.configure(bg="black")
+icon = tk.PhotoImage(file="Assets\\icon.png")
+root.iconphoto(False, icon)
+
 
 # Load saved folder on startup
 saved = load_config()
@@ -194,7 +197,7 @@ if saved and os.path.isdir(saved):
 else:
     folder_var = tk.StringVar(value=f'Folder: ')
 
-# --- FOLDER SELECTION ---
+# Buttons
 
 folder_frame = tk.Frame(root, bg="black")
 folder_frame.pack(pady=10)
