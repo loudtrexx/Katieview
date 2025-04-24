@@ -292,5 +292,10 @@ apply_btn.pack(side=tk.LEFT, padx=10)
 settings_btn = tk.Button(btn_frame, text="Settings...", width=20, command=open_settings)
 settings_btn.pack(side=tk.LEFT, padx=10)
 
-# --- MAIN LOOP ---
+# Execution
+try:
+    os.makedirs(wallpaperapplyfolder)
+except FileExistsError:
+    pass
+
 root.mainloop()
