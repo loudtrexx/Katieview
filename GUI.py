@@ -150,7 +150,7 @@ def change_folder():
     if folder:
         clean_cache("temp")
         folder_var.set(f'Folder: "{folder}"')
-        save_config(folder)
+#        save_config(folder)
         load_thumbnails(folder)
 
 # --- SETTINGS WINDOW ---
