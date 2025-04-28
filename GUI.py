@@ -46,6 +46,24 @@ def load_config():
             pass
     return config
 
+def validate_hex_color(color):
+    if isinstance(color, str) and color.startswith("#") and len(color) == 7:
+        try:
+            int(color[1:], 16)
+            return True
+        except ValueError:
+            return False
+    return False
+
+config = load_config()
+bg_color = config.get("bg_color", "#000000")  # Use default if not present
+
+# Fallback to black if the color is invalid
+if not validate_hex_color(bg_color):
+    print(f"Invalid color '{bg_color}' in config. Falling back to black.")
+    bg_color = "#000000"
+
+
 # --- Load Saved Config ---
 config = load_config()
 bg_color = config.get("bg_color", "black")
@@ -150,11 +168,17 @@ def change_folder():
 
 def get_text_color(bg_color):
     bg_color = bg_color.lstrip('#')
-    r, g, b = int(bg_color[0:2], 16), int(bg_color[2:4], 16), int(bg_color[4:6], 16)
+    if len(bg_color) != 6:
+        return "white"  # fallback
+    try:
+        r, g, b = int(bg_color[0:2], 16), int(bg_color[2:4], 16), int(bg_color[4:6], 16)
+    except ValueError:
+        return "white"  # fallback on bad hex
     if g > r and g > b:
         return "black"
     luminance = (0.299 * r + 0.587 * g + 0.114 * b)
     return "black" if luminance > 186 else "white"
+
 
 def change_bg_color():
     color = colorchooser.askcolor()[1]
@@ -195,7 +219,7 @@ def open_settings():
         return
     settings_window = tk.Toplevel(root)
     settings_window.title("Settings - Katieview")
-    settings_window.geometry("600x600")
+    settings_window.geometry("500x500")
     settings_window.resizable(False, False)
     settings_window.configure(bg=bg_color)
     settings_window.iconphoto(False, icon)
