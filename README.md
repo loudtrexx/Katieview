@@ -8,3 +8,7 @@ Katieview is a school project i created with my friend. Though i did most of the
 
 ### What is the name supposed to mean?
 I was inspired by the naming of KDE applications, Especially Kate the text editor. Decided to name it Katieview
+
+
+### Where is the linux version you promised??
+Linux version as of now is not in development. I was gonna build it based on the windows version but the xorg component said no :(
