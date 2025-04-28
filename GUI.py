@@ -93,8 +93,8 @@ def stop_timer():
         print("Wallpaper rotation stopped.")
 
 def wallpaper_execute(image):
-    output_path = fit_wallpaper(image, wallpaperapplyfolder)
-    set_wallpaper(output_path)
+    path = fit_wallpaper(image, wallpaperapplyfolder)
+    ctypes.windll.user32.SystemParametersInfoW(20, 0, path, 0)
 
 def set_wallpaper(image_path):
     ctypes.windll.user32.SystemParametersInfoW(20, 0, image_path, 0)
@@ -117,10 +117,20 @@ def fit_wallpaper(image_path, output_folder):
         img = img.resize((new_w, new_h))
         top = (new_h - screen_h) // 2
         img = img.crop((0, top, screen_w, top + screen_h))
+    
+    output_folder = os.path.abspath(output_folder)
+    
+    # Construct the full output path
     filename = os.path.basename(image_path)
     output_path = os.path.join(output_folder, filename)
+    
+    # Ensure the output folder exists
     os.makedirs(output_folder, exist_ok=True)
+    
+    # Save the image
     img.save(output_path)
+    
+    # Return the full output path
     return output_path
 
 def load_thumbnails(folder):
@@ -164,7 +174,7 @@ def change_folder():
         clean_cache(wallpaperapplyfolder)
         folder_var.set(f'Folder: "{folder}"')
         load_thumbnails(folder)
-        save_config(folder_path=folder)
+        #save_config(folder_path=folder)
 
 def get_text_color(bg_color):
     bg_color = bg_color.lstrip('#')
