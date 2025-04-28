@@ -9,6 +9,7 @@ import pyautogui
 import json
 import shutil
 import webbrowser
+import taskbarmanager
 
 # --- Config and Globals ---
 config_path = "config.json"
@@ -255,7 +256,11 @@ def open_settings():
     tk.Button(settings_window, text="Clear cache", bg="white", fg="black", command=lambda: clean_cache(wallpaperapplyfolder)).pack()
     tk.Label(settings_window, text="Clear the temporary directory of any image remains from previous folder.", bg=bg_color, fg="white", wraplength=600).pack()
     tk.Button(settings_window, text="Change Background Color", command=change_bg_color, bg="white", fg="black").pack(pady=10)
-    tk.Label(settings_window, bg=bg_color).pack()
+    tk.Label(settings_window, bg=bg_color, text="Toggle taskbar", fg="white").pack()
+    tk.Label(settings_window, bg=bg_color, text="Enjoy the clean view without taskbar in the view! (Reverts back if closed hidden)", fg="white").pack()
+    tk.Button(settings_window, text="Show", bg="white", fg="black", command=lambda:taskbarmanager.toggle_taskbars(show=True)).pack()
+    tk.Button(settings_window, text="Hide", bg="white", fg="black", command=lambda:taskbarmanager.toggle_taskbars(show=False)).pack(padx=50, pady=10)
+    tk.Label(settings_window, bg=bg_color,).pack()
     tk.Label(settings_window, text="(C) 2025 loudtrexx & Herrafoxi under MIT license", bg=bg_color, fg="white").pack()
     tk.Button(settings_window, text="Open project github", bg="white", fg="black", command=lambda: webbrowser.open("https://github.com/loudtrexx/Katieview")).pack()
 
@@ -334,3 +339,4 @@ except Exception:
 apply_background_color(bg_color)
 
 root.mainloop()
+taskbarmanager.toggle_taskbars(show=True)
