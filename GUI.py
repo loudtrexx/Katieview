@@ -230,7 +230,7 @@ def open_settings():
         return
     settings_window = tk.Toplevel(root)
     settings_window.title("Settings - Katieview")
-    settings_window.geometry("500x500")
+    settings_window.geometry("700x700")
     settings_window.resizable(False, False)
     settings_window.configure(bg=bg_color)
     settings_window.iconphoto(False, icon)
