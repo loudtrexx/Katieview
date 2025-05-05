@@ -84,14 +84,14 @@ def start_timer():
     if image_list:
         random_image = random.choice(image_list)
         wallpaper_execute(random_image)
+        print("Started")
     timer_id = root.after(milliseconds, start_timer)
 
 def stop_timer():
     global timer_id
-    if timer_id:
-        root.after_cancel(timer_id)
-        timer_id = None
-        print("Wallpaper rotation stopped.")
+    root.after_cancel(timer_id)
+    timer_id = None
+    print("Wallpaper rotation stopped.")
 
 def wallpaper_execute(image):
     path = fit_wallpaper(image, wallpaperapplyfolder)
@@ -327,7 +327,8 @@ tk.Label(custom_frame, text="minutes.", fg="white", bg=bg_color).pack(side=tk.LE
 
 btn_frame = tk.Frame(root, bg=bg_color)
 btn_frame.pack(pady=10)
-tk.Button(btn_frame, text="Apply", width=20, command=start_timer).pack(side=tk.LEFT, padx=10)
+tk.Button(btn_frame, text="Start", width=20, command=start_timer).pack(side=tk.LEFT, padx=10)
+tk.Button(btn_frame, text="Stop", width=20, command=stop_timer).pack(side=tk.LEFT, padx=10)
 tk.Button(btn_frame, text="Settings...", width=20, command=open_settings).pack(side=tk.LEFT, padx=10)
 
 try:
