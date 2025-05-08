@@ -10,6 +10,7 @@ import json
 import shutil
 import webbrowser
 import taskbarmanager
+from datetime import datetime
 
 # --- Config and Globals ---
 config_path = "config.json"
@@ -19,6 +20,8 @@ image_list = []
 thumbnail_refs = []
 gif_players = []
 timer_id = None
+status = False
+now = datetime.now().strftime("%H:%M:%S")
 
 # --- Config Load/Save ---
 def save_config(folder_path=None, bg_color=None):
@@ -75,7 +78,24 @@ def clean_cache(temp_dir):
     shutil.rmtree(temp_dir, ignore_errors=True)
     os.makedirs(temp_dir, exist_ok=True)
 
+def update_clock():
+    global now
+    now = datetime.now().strftime("%H:%M:%S")  # Get current system time
+    root.after(1000, update_clock)
+
+def onbuttonpress():
+    global status
+    if status == False:
+        status = True
+        buttonimportant.config(text="Stop")
+        start_timer()
+    else:
+        status = False
+        buttonimportant.config(text="Start")
+        stop_timer()
+
 def start_timer():
+    global status
     global timer_id
     interval_minutes = interval_var.get()
     if interval_minutes == 0 and custom_var.get().isdigit():
@@ -167,7 +187,7 @@ def load_thumbnails(folder):
                 lbl = tk.Label(thumb_frame, image=tk_img, bg="white")
                 lbl.grid(row=idx//5, column=idx%5, padx=5, pady=5)
         except Exception as e:
-            print(f"Error loading {fname}: {e}")
+            print(f"{now.strftime("[%H:%M:%S]")} Error loading {fname}: {e}")
 
 def change_folder():
     folder = filedialog.askdirectory()
@@ -327,8 +347,8 @@ tk.Label(custom_frame, text="minutes.", fg="white", bg=bg_color).pack(side=tk.LE
 
 btn_frame = tk.Frame(root, bg=bg_color)
 btn_frame.pack(pady=10)
-tk.Button(btn_frame, text="Start", width=20, command=start_timer).pack(side=tk.LEFT, padx=10)
-tk.Button(btn_frame, text="Stop", width=20, command=stop_timer).pack(side=tk.LEFT, padx=10)
+buttonimportant = tk.Button(btn_frame, text="Start", width=20, command=onbuttonpress)
+buttonimportant.pack(side=tk.LEFT, padx=10)
 tk.Button(btn_frame, text="Settings...", width=20, command=open_settings).pack(side=tk.LEFT, padx=10)
 
 try:
