@@ -10,7 +10,6 @@ import json
 import shutil
 import webbrowser
 import taskbarmanager
-from datetime import datetime
 
 # --- Config and Globals ---
 config_path = "config.json"
@@ -21,7 +20,6 @@ thumbnail_refs = []
 gif_players = []
 timer_id = None
 status = False
-now = datetime.now().strftime("%H:%M:%S")
 
 # --- Config Load/Save ---
 def save_config(folder_path=None, bg_color=None):
@@ -77,11 +75,6 @@ saved_folder = config.get("folder", "")
 def clean_cache(temp_dir):
     shutil.rmtree(temp_dir, ignore_errors=True)
     os.makedirs(temp_dir, exist_ok=True)
-
-def update_clock():
-    global now
-    now = datetime.now().strftime("%H:%M:%S")  # Get current system time
-    root.after(1000, update_clock)
 
 def onbuttonpress():
     global status
@@ -187,7 +180,7 @@ def load_thumbnails(folder):
                 lbl = tk.Label(thumb_frame, image=tk_img, bg="white")
                 lbl.grid(row=idx//5, column=idx%5, padx=5, pady=5)
         except Exception as e:
-            print(f"{now.strftime("[%H:%M:%S]")} Error loading {fname}: {e}")
+            print(f"Error loading {fname}: {e}")
 
 def change_folder():
     folder = filedialog.askdirectory()
