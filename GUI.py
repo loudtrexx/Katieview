@@ -281,15 +281,16 @@ def open_help():
     help_window = tk.Toplevel(root)
     help_window.title("Help - Katieview")
     help_window.geometry("700x700")
+    help_window.iconphoto(False, icon)
     help_window.configure(bg=bg_color)
 
     tk.Label(help_window, text="How to use Katieview", font=("Arial", 16), bg=bg_color, fg="white").pack(pady=20)
-    help_text = """Katieview allows you to set your desktop wallpaper and rotate it periodically.\n
-1. Set your folder containing images and gifs.\n
-2. Select the rotation interval (in minutes).\n
-3. Adjust the background color of the app.\n
-4. Toggle the taskbar visibility.\n
-5. Click 'Start' to begin wallpaper rotation.\n
+    help_text = """Katieview allows you to set your desktop wallpaper and rotate it every few minutes.\n
+1. Set your folder containing images\n
+2. Select when the wallpaper will be rotated (in minutes).\n
+3. Adjust the background color of the app. In settings\n
+4. Toggle the taskbar visibility. In the settingss\n
+5. Click 'Start' to begin wallpaper rotation. Press 'Stop' to stop.\n
 6. Customize the settings as needed."""
     
     tk.Label(help_window, text=help_text, bg=bg_color, fg="white").pack(pady=10)
