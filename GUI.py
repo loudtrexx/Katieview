@@ -180,7 +180,7 @@ def load_thumbnails(folder):
                 lbl = tk.Label(thumb_frame, image=tk_img, bg="white")
                 lbl.grid(row=idx//5, column=idx%5, padx=5, pady=5)
         except Exception as e:
-            print(f"Error loading {fname}: {e}")
+            print(f" Error loading {fname}: {e}")
 
 def change_folder():
     folder = filedialog.askdirectory()
@@ -277,6 +277,23 @@ def open_settings():
     tk.Label(settings_window, text="(C) 2025 loudtrexx & Herrafoxi under MIT license", bg=bg_color, fg="white").pack()
     tk.Button(settings_window, text="Open project github", bg="white", fg="black", command=lambda: webbrowser.open("https://github.com/loudtrexx/Katieview")).pack()
 
+def open_help():
+    help_window = tk.Toplevel(root)
+    help_window.title("Help - Katieview")
+    help_window.geometry("700x700")
+    help_window.configure(bg=bg_color)
+
+    tk.Label(help_window, text="How to use Katieview", font=("Arial", 16), bg=bg_color, fg="white").pack(pady=20)
+    help_text = """Katieview allows you to set your desktop wallpaper and rotate it periodically.\n
+1. Set your folder containing images and gifs.\n
+2. Select the rotation interval (in minutes).\n
+3. Adjust the background color of the app.\n
+4. Toggle the taskbar visibility.\n
+5. Click 'Start' to begin wallpaper rotation.\n
+6. Customize the settings as needed."""
+    
+    tk.Label(help_window, text=help_text, bg=bg_color, fg="white").pack(pady=10)
+
 # --- UI Setup ---
 root = tk.Tk()
 root.title("Katieview")
@@ -343,6 +360,8 @@ btn_frame.pack(pady=10)
 buttonimportant = tk.Button(btn_frame, text="Start", width=20, command=onbuttonpress)
 buttonimportant.pack(side=tk.LEFT, padx=10)
 tk.Button(btn_frame, text="Settings...", width=20, command=open_settings).pack(side=tk.LEFT, padx=10)
+# Help button in top-right corner
+help_button = tk.Button(btn_frame, text="?", command=open_help, bg="white", fg="black", font=("Arial", 10), relief="solid", width=3).pack()
 
 try:
     os.makedirs(wallpaperapplyfolder, exist_ok=True)
