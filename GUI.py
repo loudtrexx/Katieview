@@ -10,6 +10,7 @@ import json
 import shutil
 import webbrowser
 import taskbarmanager
+import sys
 
 # --- Config and Globals ---
 config_path = "config.json"
@@ -276,6 +277,14 @@ def open_settings():
     tk.Label(settings_window, bg=bg_color,).pack()
     tk.Label(settings_window, text="(C) 2025 loudtrexx & Herrafoxi under MIT license", bg=bg_color, fg="white").pack()
     tk.Button(settings_window, text="Open project github", bg="white", fg="black", command=lambda: webbrowser.open("https://github.com/loudtrexx/Katieview")).pack()
+    tk.Button(settings_window, text="Perform an update", bg="white", fg="black", command=lambda:perform_update()).pack()
+
+    def perform_update():
+            try:
+                os.system("gitupdatefetch.exe -u -a -c")
+                sys.exit(0)
+            except FileNotFoundError:
+                print("gitupdatefetch.exe is not available.")
 
 def open_help():
     help_window = tk.Toplevel(root)
