@@ -3,7 +3,7 @@ from tkinter import filedialog, colorchooser
 from tkinter import messagebox
 from PIL import Image, ImageTk, ImageSequence
 import random
-import os
+import os, subprocess
 import ctypes
 import pyautogui
 import json
@@ -21,6 +21,7 @@ thumbnail_refs = []
 gif_players = []
 timer_id = None
 status = False
+version = "1.4.1" # Update when new version is under development
 
 # --- Config Load/Save ---
 def save_config(folder_path=None, bg_color=None):
@@ -263,6 +264,8 @@ def open_settings():
             preset_var.set(folder)
             save_config(folder_path=folder)
 
+    
+
     tk.Button(settings_window, text="Browse...", command=choose_folder).pack(pady=5)
     tk.Button(settings_window, text="Close", command=settings_window.destroy).pack(pady=5)
     tk.Label(settings_window, bg=bg_color).pack()
@@ -280,11 +283,25 @@ def open_settings():
     tk.Button(settings_window, text="Perform an update", bg="white", fg="black", command=lambda:perform_update()).pack()
 
     def perform_update():
+            global first_run_after_update
             try:
-                os.system("gitupdatefetch.exe -u -a -c")
+                subprocess.call(["gitupdatefetch.exe", "-u", "-a", "-c"])
+                subprocess.Popen([sys.executable, "GUI.py"]) # Uncomment if using script directly.
+                #subprocess.Popen([sys.executable]) # This will launch the compiled executable.
+                first_run_after_update = True
+                print("Update performed successfully. Restarting Katieview...")
                 sys.exit(0)
             except FileNotFoundError:
                 print("gitupdatefetch.exe is not available.")
+                tk.messagebox.showerror("Error", "gitupdatefetch.exe is not available. Please ensure it is in the same directory as Katieview.")
+    
+def whatsnew():
+        global first_run_after_update
+        if first_run_after_update == True:
+            messagebox.showinfo("What's New", f"Katieview has been updated to version {version}!\n\n- Added this update pop-up\n- Added updater built-in that fetches new updates.\n- (Gitupdatefetch by loudtrexx. https://github.com/loudtrexx/Gitupdatefetch)\n- Fixed various bugs. \n\nEnjoy the new features!")
+            first_run_after_update = False
+        else:
+            print("No update performed. Ignoring what's new pop-up.")
 
 def open_help():
     help_window = tk.Toplevel(root)
