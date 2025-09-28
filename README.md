@@ -11,4 +11,4 @@ I was inspired by the naming of KDE applications, Especially Kate the text edito
 
 
 ### Where is the linux version you promised??
-Linux version as of now is not in development. I was gonna build it based on the windows version but the xorg component said no :(
+Linux version is underway! Maybe it will take sometime but it is finally underway!
